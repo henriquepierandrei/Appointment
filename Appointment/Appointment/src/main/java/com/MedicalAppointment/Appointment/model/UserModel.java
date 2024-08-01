@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.Date;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -25,7 +27,7 @@ public class UserModel {
     private String email;
     private String password;
     private String cpf;
-    private String yearOld;
+    private Date yearOld;
     private String numberWhatsapp;
     private boolean isAdmin = false;
 

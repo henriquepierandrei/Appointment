@@ -1,4 +1,6 @@
 package com.MedicalAppointment.Appointment.dto;
 
-public record RegisterDto() {
+import java.util.Date;
+
+public record RegisterDto(String name, String lastName, String email, String password, String cpf, Date yearOld,String number) {
 }

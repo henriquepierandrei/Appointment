@@ -1,4 +1,4 @@
 package com.MedicalAppointment.Appointment.dto;
 
-public record LoginDto() {
+public record LoginDto(String email, String password) {
 }

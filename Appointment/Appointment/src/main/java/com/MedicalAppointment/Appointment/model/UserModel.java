@@ -26,6 +26,7 @@ public class UserModel {
     private String password;
     private String cpf;
     private String yearOld;
+    private String numberWhatsapp;
     private boolean isAdmin = false;
 
 }

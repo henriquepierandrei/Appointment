@@ -1,8 +1,8 @@
 package com.MedicalAppointment.Appointment.infra.security;
 
 
-import com.API_SupportCustommer.API.infra.security.CustomUserDetailsService;
-import com.API_SupportCustommer.API.infra.security.SecurityFilter;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,13 +19,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+    private final CustomUserDetailsService userDetailsService;
+    private final SecurityFilter securityFilter;
 
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
-
-    @Autowired
-    private SecurityFilter securityFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

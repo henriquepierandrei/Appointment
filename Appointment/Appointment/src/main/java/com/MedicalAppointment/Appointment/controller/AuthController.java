@@ -48,8 +48,9 @@ public class AuthController {
             newUser.setNumberWhatsapp(registerDto.number());
             this.userRepository.save(newUser);
             String token = this.tokenService.generateToken(newUser);
-            return ResponseEntity.ok(new ResponseDto(newUser.getName(), newUser.getCpf(), newUser.getEmail()), newUser.getNumberWhatsapp(),newUser.getYearOld());
+            return ResponseEntity.ok(registerDto);
         }
+        return ResponseEntity.badRequest().build();
 
     }
 }

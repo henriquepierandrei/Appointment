@@ -1,5 +1,6 @@
 package com.MedicalAppointment.Appointment.service;
 
+import com.MedicalAppointment.Appointment.model.UserModel;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public void sendEmail(String to) {
+    public void sendEmail(String to, String code) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -32,7 +33,7 @@ public class EmailService {
                     + "    </h1>"
                     + "    <p style='font-weight: bold;'>Seu código está logo abaixo:</p>"
                     + "    <p style='font-size: 20px; color: #ffffff; background-image: linear-gradient(to right, rgb(48, 46, 46), rgb(58, 53, 53)); padding: 4px; border-radius: 10px 0px;text-align:center;font-size: 2em;'>"
-                    + "        <b>" + code() + "</b>"
+                    + "        <b>" + code + "</b>"
                     + "    </p>"
                     + "        <a href='http://localhost:8080/api/email/send' style=\"text-decoration: none;\"><button style=\"cursor: pointer;background-color:  rgb(14, 96, 218);padding: 10px;border-radius: 5px;font-size: 1.2em;color: white;border: none;margin: 5px auto;display: block;\">✔\uFE0FAutenticar Email</button>\n\n"
                     + "    <div style='background-color: rgb(58, 54, 54); padding: 10px; border-radius: 5px;text-align:center;'>"
@@ -62,5 +63,12 @@ public class EmailService {
         }
         System.out.println(stringBuilder.toString());
         return stringBuilder.toString();
+    }
+
+    public boolean codeValidator(String code, String codeValidator2, UserModel userModel){
+        if (code.contains(codeValidator2)){
+            return true;
+        }
+        return false;
     }
 }

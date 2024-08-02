@@ -1,4 +1,4 @@
 package com.MedicalAppointment.Appointment.dto;
 
-public record EmailDto(String to) {
+public record EmailDto(String code) {
 }

@@ -80,27 +80,28 @@ public class AuthController {
         System.out.println("Received request with code: " + emailDto.code());
 
         Optional<EmailModel> emailModelOptional = this.emailRepository.findByCode(emailDto.code());
+        if (emailModelOptional.get().getEmail().contains(emailDto.email())){
+            if (emailModelOptional.isPresent()) {
+                EmailModel emailModel = emailModelOptional.get();
+                System.out.println("Found EmailModel: " + emailModel);
 
-        if (emailModelOptional.isPresent()) {
-            EmailModel emailModel = emailModelOptional.get();
-            System.out.println("Found EmailModel: " + emailModel);
+                UserModel userModel = new UserModel();
+                userModel.setCpf(emailModel.getCpf());
+                userModel.setName(emailModel.getName());
+                userModel.setLastName(emailModel.getLastName());
+                userModel.setYearOld(emailModel.getYearOld());
+                userModel.setNumberWhatsapp(emailModel.getNumberWhatsapp());
+                userModel.setPassword(passwordEncoder.encode(emailModel.getPassword()));
+                userModel.setEmail(emailModel.getEmail());
 
-            UserModel userModel = new UserModel();
-            userModel.setCpf(emailModel.getCpf());
-            userModel.setName(emailModel.getName());
-            userModel.setLastName(emailModel.getLastName());
-            userModel.setYearOld(emailModel.getYearOld());
-            userModel.setNumberWhatsapp(emailModel.getNumberWhatsapp());
-            userModel.setPassword(passwordEncoder.encode(emailModel.getPassword()));
-            userModel.setEmail(emailModel.getEmail());
+                this.userRepository.save(userModel);
+                this.emailRepository.delete(emailModel);
 
-            this.userRepository.save(userModel);
-            this.emailRepository.delete(emailModel);
-
-            return ResponseEntity.ok(new ResponseDto(userModel.getName(), userModel.getEmail(), "User registered successfully"));
-        } else {
+                return ResponseEntity.ok(new ResponseDto(userModel.getName(), userModel.getEmail(), "User registered successfully"));
+            }
             return ResponseEntity.badRequest().build();
         }
+        return ResponseEntity.badRequest().build();
     }
 
 

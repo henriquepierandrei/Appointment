@@ -1,8 +1,10 @@
 package com.MedicalAppointment.Appointment.controller;
 
 
+import com.MedicalAppointment.Appointment.dto.CreateDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
     @PostMapping("/appointment/create")
-    public ResponseEntity create(){
+    public ResponseEntity create(@RequestBody CreateDto createDto){
+        
 
 
 

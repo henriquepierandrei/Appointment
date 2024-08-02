@@ -49,7 +49,7 @@ public class AuthController {
 
         if (cpfValidatorService.isValidCpf(registerDto.cpf())){
             newUser.setCpf(registerDto.cpf());
-            newUser.setPassword(registerDto.password());
+            newUser.setPassword(passwordEncoder.encode(registerDto.password()));
             newUser.setEmail(registerDto.email());
             newUser.setYearOld(registerDto.yearOld());
             newUser.setNumberWhatsapp(registerDto.number());

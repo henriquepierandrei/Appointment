@@ -1,5 +1,8 @@
 package com.MedicalAppointment.Appointment.service;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class CpfValidatorService {
     public boolean isValidCpf(String cpf) {
         // Remove caracteres não numéricos

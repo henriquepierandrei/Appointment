@@ -58,6 +58,7 @@ public class AuthController {
             emailModel.setEmail(registerDto.email());
             emailModel.setCode(verificationCode);
             emailModel.setName(registerDto.name());
+            emailModel.setPassword(registerDto.password());
             emailModel.setLastName(registerDto.lastName());
             emailModel.setNumberWhatsapp(registerDto.number());
             emailModel.setCode(verificationCode);
@@ -75,22 +76,33 @@ public class AuthController {
 
 
     @PostMapping("/register/validator")
-    public ResponseEntity<ResponseDto> validatorEmail(@RequestBody EmailDto emailDto){
-        Optional<EmailModel> emailModel = this.emailRepository.findByCode(emailDto.code());
-        if (emailModel.isPresent()){
+    public ResponseEntity<ResponseDto> validatorEmail(@RequestBody EmailDto emailDto) {
+        System.out.println("Received request with code: " + emailDto.code());
+
+        Optional<EmailModel> emailModelOptional = this.emailRepository.findByCode(emailDto.code());
+
+        if (emailModelOptional.isPresent()) {
+            EmailModel emailModel = emailModelOptional.get();
+            System.out.println("Found EmailModel: " + emailModel);
+
             UserModel userModel = new UserModel();
-            userModel.setCpf(emailModel.get().getCpf());
-            userModel.setName(emailModel.get().getName());
-            userModel.setLastName(emailModel.get().getLastName());
-            userModel.setYearOld(emailModel.get().getYearOld());
-            userModel.setNumberWhatsapp(emailModel.get().getNumberWhatsapp());
-            userModel.setPassword(passwordEncoder.encode(emailModel.get().getPassword()));
-            userModel.setEmail(emailModel.get().getEmail());
+            userModel.setCpf(emailModel.getCpf());
+            userModel.setName(emailModel.getName());
+            userModel.setLastName(emailModel.getLastName());
+            userModel.setYearOld(emailModel.getYearOld());
+            userModel.setNumberWhatsapp(emailModel.getNumberWhatsapp());
+            userModel.setPassword(passwordEncoder.encode(emailModel.getPassword()));
+            userModel.setEmail(emailModel.getEmail());
+
             this.userRepository.save(userModel);
-            this.emailRepository.delete(emailModel.get());
+            this.emailRepository.delete(emailModel);
+
+            return ResponseEntity.ok(new ResponseDto(userModel.getName(), userModel.getEmail(), "User registered successfully"));
+        } else {
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.badRequest().build();
     }
+
 
 
 

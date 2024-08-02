@@ -29,7 +29,7 @@ public class UserModel {
     private String email;
     private String password;
     private String cpf;
-    private Date yearOld;
+    private String yearOld;
     private String numberWhatsapp;
     private boolean isAdmin = false;
 

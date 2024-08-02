@@ -6,7 +6,9 @@ import com.MedicalAppointment.Appointment.dto.ResponseDto;
 import com.MedicalAppointment.Appointment.infra.security.TokenService;
 import com.MedicalAppointment.Appointment.model.UserModel;
 import com.MedicalAppointment.Appointment.repository.UserRepository;
+import com.MedicalAppointment.Appointment.service.CpfValidatorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +25,7 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TokenService tokenService;
+    private final CpfValidatorService cpfValidatorService;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginDto loginDto){
@@ -38,9 +41,13 @@ public class AuthController {
     public ResponseEntity register(@RequestBody RegisterDto registerDto){
         Optional<UserModel> userModelOptional = this.userRepository.findByEmail(registerDto.email());
         if (userModelOptional.isPresent()){
-            UserModel newUser = new UserModel();
-            newUser.setName(registerDto.name());
-            newUser.setLastName(registerDto.lastName());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use!");
+        }
+        UserModel newUser = new UserModel();
+        newUser.setName(registerDto.name());
+        newUser.setLastName(registerDto.lastName());
+
+        if (cpfValidatorService.isValidCpf(registerDto.cpf())){
             newUser.setCpf(registerDto.cpf());
             newUser.setPassword(registerDto.password());
             newUser.setEmail(registerDto.email());
@@ -51,6 +58,7 @@ public class AuthController {
             return ResponseEntity.ok(registerDto);
         }
         return ResponseEntity.badRequest().build();
+
 
     }
 }

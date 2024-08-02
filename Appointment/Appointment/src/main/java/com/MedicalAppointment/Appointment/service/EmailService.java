@@ -27,9 +27,9 @@ public class EmailService {
             // Define o conteúdo da mensagem em HTML
             String htmlContent = "<html>"
                     + "<body>"
-                    + "<h1 style='color: #4CAF50;'>Seu Código de Verificação</h1>"
-                    + "<p>Seu código está logo abaixo:</p>"
-                    + "<p style='font-size: 20px; color: #FF5722;'><b>" + code() + "</b></p>"
+                    + "    <h1 style='color: #ffffff;background-color: rgb(31, 110, 228);width: max-content;padding: 5px;border-radius: 5px;'>Seu Código de Verificação</h1>\n"
+                    + "<p> style: 'font-weight:bold;' Seu código está logo abaixo:</p>"
+                    + "    + \"<p style='font-size: 20px; color: #ffffff;background-image: linear-gradient(to right,rgb(48, 46, 46),rgb(58, 53, 53));padding: 4px;border-radius: 10px 0px;'><b>\" + code() + \"</b></p>\"\n"
                     + "<p>Por favor, não compartilhe este código com ninguém.</p>"
                     + "</body>"
                     + "</html>";

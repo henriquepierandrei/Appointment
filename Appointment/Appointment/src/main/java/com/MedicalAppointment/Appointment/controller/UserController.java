@@ -25,9 +25,8 @@ public class UserController {
     @PostMapping("/appointment/create")
     public ResponseEntity create(@RequestBody CreateDto createDto, @AuthenticationPrincipal UserModel userModel){
         Optional<UserModel> userModel1 = this.userRepository.findById(createDto.idUser());
-        int quantity = userModel1.get().getQuantity();
-        if (quantity == 1){return ResponseEntity.status(HttpStatus.CONFLICT).body("There is already an appointment scheduled!");}
-        
+        if (userModel1.get().getQuantity() == 1){return ResponseEntity.status(HttpStatus.CONFLICT).body("There is already an appointment scheduled!");}
+        if (this.)
 
 
 

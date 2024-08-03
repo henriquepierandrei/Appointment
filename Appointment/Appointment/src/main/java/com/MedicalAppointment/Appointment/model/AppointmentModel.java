@@ -19,5 +19,6 @@ public class AppointmentModel {
     private String date;
     private int numberTurn;
     private String acessCode;
+    private String time;
 
 }

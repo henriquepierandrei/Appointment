@@ -1,6 +1,7 @@
 package com.MedicalAppointment.Appointment.controller;
 
 
+import com.MedicalAppointment.Appointment.Enum.TimeAppointmentEnum;
 import com.MedicalAppointment.Appointment.dto.CreateDto;
 import com.MedicalAppointment.Appointment.model.AppointmentModel;
 import com.MedicalAppointment.Appointment.model.UserModel;
@@ -40,7 +41,10 @@ public class UserController {
 
         AppointmentModel appointmentModel = new AppointmentModel();
         appointmentModel.setDate(createDto.date());
-        appointmentModel.setTimeAppointmentEnum(createDto.time());
+
+        TimeAppointmentEnum timeEnum;
+        timeEnum = TimeAppointmentEnum.valueOf(createDto.time());
+        appointmentModel.setTimeAppointmentEnum(timeEnum.toString());
         appointmentModel.setIdUser(userModel.getId());
         appointmentModel.setNumberTurn(1);
         appointmentModel.setAcessCode("1233");

@@ -14,5 +14,5 @@ public interface AppointmentRepository extends JpaRepository<AppointmentModel, L
 
 
     // Método para encontrar compromissos por data e hora
-    Optional<AppointmentModel> findByDateAndTimeAppointmentEnum(String date, TimeAppointmentEnum time);
+    Optional<AppointmentModel> findByDateAndTimeAppointmentEnum(String date, String time);
 }

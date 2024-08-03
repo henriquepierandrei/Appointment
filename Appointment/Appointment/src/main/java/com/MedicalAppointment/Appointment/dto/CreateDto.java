@@ -1,4 +1,6 @@
 package com.MedicalAppointment.Appointment.dto;
 
-public record CreateDto(long idUser, String date, int numberTurn, String acessCode, String time) {
+import com.MedicalAppointment.Appointment.Enum.TimeAppointmentEnum;
+
+public record CreateDto(String date, TimeAppointmentEnum time) {
 }

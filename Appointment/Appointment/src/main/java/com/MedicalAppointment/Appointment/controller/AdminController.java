@@ -33,8 +33,8 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.FOUND).body(appointmentModelList);
     }
 
-    @DeleteMapping("finish/appointments")
-    public ResponseEntity<String> deleteAppointments(@RequestBody String date) {
+    @DeleteMapping("finish/appointments/{date}")
+    public ResponseEntity<String> deleteAppointments(@PathVariable(value = "date") String date) {
         try {
             List<AppointmentModel> appointmentModels = this.appointmentRepository.findByDate(date);
             System.out.println(date);

@@ -5,20 +5,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class CpfValidatorService {
     public boolean isValidCpf(String cpf) {
-        // Remove caracteres não numéricos
+
         cpf = cpf.replaceAll("[^\\d]", "");
 
-        // Verifica o comprimento do CPF
+
         if (cpf.length() != 11) {
             return false;
         }
 
-        // Verifica se todos os dígitos são iguais (CPF inválido)
+
         if (cpf.chars().distinct().count() == 1) {
             return false;
         }
 
-        // Calcula e verifica o primeiro dígito verificador
+
         int sum = 0;
         int weight = 10;
         for (int i = 0; i < 9; i++) {

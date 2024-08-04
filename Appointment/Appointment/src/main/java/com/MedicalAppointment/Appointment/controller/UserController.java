@@ -8,6 +8,7 @@ import com.MedicalAppointment.Appointment.model.UserModel;
 
 import com.MedicalAppointment.Appointment.repository.AppointmentRepository;
 import com.MedicalAppointment.Appointment.repository.UserRepository;
+import com.MedicalAppointment.Appointment.service.GenerateCodeAcessService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ import java.util.Optional;
 public class UserController {
     private final UserRepository userRepository;
     private final AppointmentRepository appointmentRepository;
+    private final GenerateCodeAcessService generateCodeAcessService;
 
 
     @PostMapping("/appointment/create")
@@ -47,7 +49,7 @@ public class UserController {
         appointmentModel.setTimeAppointmentEnum(timeEnum.toString());
         appointmentModel.setIdUser(userModel.getId());
         appointmentModel.setNumberTurn(1);
-        appointmentModel.setAcessCode("1233");
+        appointmentModel.setAcessCode(generateCodeAcessService.generateCode());
         this.appointmentRepository.save(appointmentModel);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Appointment created!");

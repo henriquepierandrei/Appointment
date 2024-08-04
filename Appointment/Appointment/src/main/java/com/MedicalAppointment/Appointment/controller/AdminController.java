@@ -2,8 +2,10 @@ package com.MedicalAppointment.Appointment.controller;
 
 import com.MedicalAppointment.Appointment.model.AppointmentModel;
 import com.MedicalAppointment.Appointment.model.NumberTurnModel;
+import com.MedicalAppointment.Appointment.model.UserModel;
 import com.MedicalAppointment.Appointment.repository.AppointmentRepository;
 import com.MedicalAppointment.Appointment.repository.NumberTurnRepository;
+import com.MedicalAppointment.Appointment.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,11 @@ import java.util.Optional;
 public class AdminController {
     private final AppointmentRepository appointmentRepository;
     private final NumberTurnRepository numberTurnRepository;
+    private final UserRepository userRepository;
+
+
+
+
 
     @GetMapping("/list/appointment/{date}")
     public ResponseEntity getAppointmentByDate(@PathVariable(value = "date") String date){
@@ -30,6 +37,16 @@ public class AdminController {
     public ResponseEntity<String> deleteAppointments(@RequestBody String date) {
         try {
             List<AppointmentModel> appointmentModels = this.appointmentRepository.findByDate(date);
+            System.out.println(date);
+            System.out.print(appointmentModels);
+
+            for (int i = 0; i < appointmentModels.size(); i++){
+                Optional<UserModel> userModel = this.userRepository.findById(appointmentModels.get(i).getIdUser());
+                userModel.get().setQuantity(0);
+                this.userRepository.save(userModel.get());
+            }
+
+
             int quantity = 0;
             if (!appointmentModels.isEmpty()) {
                 for (AppointmentModel appointmentModel : appointmentModels) {

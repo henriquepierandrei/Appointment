@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NumberTurnRepository extends JpaRepository<NumberTurnModel,Long> {
+    NumberTurnModel findById(int id);
 }

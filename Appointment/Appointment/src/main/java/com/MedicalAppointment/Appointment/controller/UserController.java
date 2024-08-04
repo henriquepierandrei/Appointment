@@ -4,9 +4,11 @@ package com.MedicalAppointment.Appointment.controller;
 import com.MedicalAppointment.Appointment.Enum.TimeAppointmentEnum;
 import com.MedicalAppointment.Appointment.dto.CreateDto;
 import com.MedicalAppointment.Appointment.model.AppointmentModel;
+import com.MedicalAppointment.Appointment.model.NumberTurnModel;
 import com.MedicalAppointment.Appointment.model.UserModel;
 
 import com.MedicalAppointment.Appointment.repository.AppointmentRepository;
+import com.MedicalAppointment.Appointment.repository.NumberTurnRepository;
 import com.MedicalAppointment.Appointment.repository.UserRepository;
 import com.MedicalAppointment.Appointment.service.GenerateCodeAcessService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ public class UserController {
     private final UserRepository userRepository;
     private final AppointmentRepository appointmentRepository;
     private final GenerateCodeAcessService generateCodeAcessService;
+    private final NumberTurnRepository numberTurnRepository;
 
 
     @PostMapping("/appointment/create")
@@ -44,13 +47,24 @@ public class UserController {
         AppointmentModel appointmentModel = new AppointmentModel();
         appointmentModel.setDate(createDto.date());
 
+        NumberTurnModel numberTurnModel = this.numberTurnRepository.findById(1);
+
         TimeAppointmentEnum timeEnum;
         timeEnum = TimeAppointmentEnum.valueOf(createDto.time());
+
         appointmentModel.setTimeAppointmentEnum(timeEnum.toString());
         appointmentModel.setIdUser(userModel.getId());
-        appointmentModel.setNumberTurn(1);
+
+        numberTurnModel.setNumberTurn(numberTurnModel.getNumberTurn()+1);
+        this.numberTurnRepository.save(numberTurnModel);
+
+        appointmentModel.setNumberTurn(numberTurnModel.getNumberTurn());
         appointmentModel.setAcessCode(generateCodeAcessService.generateCode());
+
         this.appointmentRepository.save(appointmentModel);
+
+        userModel.setQuantity(userModel.getQuantity()+1);
+        this.userRepository.save(userModel);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Appointment created!");
     }

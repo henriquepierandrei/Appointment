@@ -22,7 +22,7 @@ public class AppointmentModel {
 
     private long idUser;
     private String date;
-
+    private int numberTurn;
     private String acessCode;
     private String timeAppointmentEnum;
 

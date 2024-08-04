@@ -1,5 +1,6 @@
 package com.MedicalAppointment.Appointment.controller;
 
+import com.MedicalAppointment.Appointment.dto.ValidatorDto;
 import com.MedicalAppointment.Appointment.model.AppointmentModel;
 import com.MedicalAppointment.Appointment.model.NumberTurnModel;
 import com.MedicalAppointment.Appointment.model.UserModel;
@@ -66,6 +67,25 @@ public class AdminController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred.");
         }
+    }
+
+    @GetMapping("/validator/code")
+    public ResponseEntity validatorCode(@RequestBody ValidatorDto validatorDto){
+        Optional<AppointmentModel> appointmentModel = this.appointmentRepository.findByAcessCode(validatorDto.code());
+        Optional<UserModel> userModel = this.userRepository.findByCpf(validatorDto.cpf());
+
+        if (appointmentModel.isEmpty()){return ResponseEntity.status(HttpStatus.CONFLICT).body("Error in Acess Code!");}
+        if (userModel.isEmpty()){return ResponseEntity.status(HttpStatus.CONFLICT).body("Error in CPF!");}
+        if (String.valueOf(userModel.get().getId()).contains(String.valueOf(appointmentModel.get().getIdUser()))){
+
+
+            userModel.get().setQuantity(0);
+            this.userRepository.save(userModel.get());
+            this.appointmentRepository.delete(appointmentModel.get());
+            return ResponseEntity.status(HttpStatus.OK).body("Appointment Valid!");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Appointment Invalid!");
+
     }
 
 

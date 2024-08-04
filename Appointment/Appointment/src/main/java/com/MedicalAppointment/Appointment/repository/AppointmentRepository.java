@@ -17,4 +17,6 @@ public interface AppointmentRepository extends JpaRepository<AppointmentModel, L
 
 
     List<AppointmentModel> findByDate(String date);
+
+    Optional<AppointmentModel> findByAcessCode(String code);
 }

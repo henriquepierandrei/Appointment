@@ -35,6 +35,7 @@ public class AdminController {
     public ResponseEntity getAppointmentByDate(@PathVariable(value = "date") String date){
         List<AppointmentModel> appointmentModelList = this.appointmentRepository.findByDate(date);
         if (appointmentModelList.isEmpty()){return ResponseEntity.badRequest().build();}
+
         return ResponseEntity.status(HttpStatus.FOUND).body(appointmentModelList);
     }
 
@@ -80,8 +81,7 @@ public class AdminController {
 
         if (appointmentModel.isEmpty()){return ResponseEntity.status(HttpStatus.CONFLICT).body("Error in Acess Code!");}
         if (userModel.isEmpty()){return ResponseEntity.status(HttpStatus.CONFLICT).body("Error in CPF!");}
-        if (String.valueOf(userModel.get().getId()).contains(String.valueOf(appointmentModel.get().getIdUser()))){
-
+        if (String.valueOf(userModel.get().getId()).contains(String.valueOf(appointmentModel.get().getIdUser())) && appointmentModel.get().isConfirmed()==true){
 
             userModel.get().setQuantity(0);
             this.userRepository.save(userModel.get());

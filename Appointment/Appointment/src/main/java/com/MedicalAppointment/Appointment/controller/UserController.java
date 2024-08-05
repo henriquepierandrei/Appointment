@@ -67,6 +67,16 @@ public class UserController {
     }
 
 
+    @PutMapping("/confirm/{code}")
+    public ResponseEntity<String> confirm(@PathVariable(value = "code") String code, @AuthenticationPrincipal UserModel userModel){
+        Optional<AppointmentModel> optionalAppointmentModel = this.appointmentRepository.findByAcessCode(code);
+        if (optionalAppointmentModel.isPresent() && optionalAppointmentModel.get().getIdUser() == userModel.getId()){
+            return ResponseEntity.ok("Confirmed");
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+
 
 
 

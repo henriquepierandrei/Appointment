@@ -102,21 +102,24 @@ public class EmailService {
                     + "                Olá, " + name + ", enviamos um e-mail para lembrar a sua consulta!"
                     + "            </h2>"
                     + "            <div style='background-color: rgb(228, 236, 255); width: 85%; height: 300px; margin: auto; border-radius: 5px; padding: 20px;'>"
-                    + "                <div style='border-bottom: 2px solid rgb(102, 156, 255);'><h2 style='color: rgb(92, 88, 88);'>📅 " + date + "</h2></div>"
+                    + "                <div style='border-bottom: 2px solid rgb(102, 156, 255);'><h2 style='color: rgb(20, 19, 19); font-size: 1.8em;'>📅 " + date + "</h2></div>"
                     + "                <br>"
-                    + "                <div style='border-bottom: 2px solid rgb(102, 156, 255);'><h2 style='color: rgb(92, 88, 88);'>🕙 " + time + "</h2></div>"
+                    + "                <div style='border-bottom: 2px solid rgb(102, 156, 255);'><h2 style='color: rgb(20, 19, 19); font-size: 1.8em;'>🕙 " + time + "</h2></div>"
                     + "                <br>"
-                    + "                <div style='border-bottom: 2px solid rgb(102, 156, 255);'><h2 style='color: rgb(92, 88, 88);'>🔒 " + code + "</h2></div>"
+                    + "                <div style='border-bottom: 2px solid rgb(102, 156, 255);'><h2 style='color: rgb(20, 19, 19); font-size: 1.8em;'>🔒 " + code + "</h2></div>"
                     + "            </div>"
                     + "        </div>"
                     + "        <div style='height: 100px; display: flex; align-items: center; justify-content: center; width: 100%;'>"
-                    + "            <button style='border: none; background-color: rgb(73, 137, 255); color: white; width: 70%; padding: 10px; font-size: 1.55em; border-radius: 10px;'>"
-                    + "                Confirmar Presença"
-                    + "            </button>"
+                    + "            <a href='http://localhost:8080/user/confirmation/" + code + "' style='text-decoration: none;'>"
+                    + "                <button style='border: none; background-color: rgb(73, 137, 255); color: white; width: 70%; padding: 5px; font-size: 1.2em; border-radius: 10px; margin: auto;'>"
+                    + "                    Confirmar Presença"
+                    + "                </button>"
+                    + "            </a>"
                     + "        </div>"
                     + "    </div>"
                     + "</body>"
                     + "</html>";
+
 
 
 
@@ -130,7 +133,7 @@ public class EmailService {
     }
 
 //(cron = "0 0 0 * * ?")
-    @Scheduled(cron = "0 1 11 * * *")
+    @Scheduled(cron = "0 56 15 * * *")
     public void sendEmailNotification() {
         LocalDate dateNow = LocalDate.now();
         String date = dateNow.format(formatter);
@@ -147,7 +150,7 @@ public class EmailService {
                 String date2 = appointment.getDate();
 
 
-                String timeNow = appointment.getTimeAppointmentEnum().toString(); // Exemplo: TIME_10_00
+                String timeNow = appointment.getTimeAppointmentEnum().toString();
                 String formattedTime = timeNow
                         .replace("TIME_", "")
                         .replace("_", ":");

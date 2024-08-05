@@ -25,5 +25,6 @@ public class AppointmentModel {
     private int numberTurn;
     private String acessCode;
     private String timeAppointmentEnum;
+    private boolean isConfirmed=false;
 
 }

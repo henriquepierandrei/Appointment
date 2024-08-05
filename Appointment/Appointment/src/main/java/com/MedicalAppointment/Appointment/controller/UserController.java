@@ -15,10 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -68,5 +65,30 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Appointment created!");
     }
+
+
+//    @PutMapping("/confirmation/{code}")
+//    public ResponseEntity<Void> confirm(@PathVariable(value = "code") String code){
+//        System.out.println("Clicked!");
+//        Optional<AppointmentModel> appointmentModel = this.appointmentRepository.findByAcessCode(code);
+//        if (appointmentModel.isPresent()){
+//            appointmentModel.get().setConfirmed(true);
+//            return ResponseEntity.ok().build();
+//        }
+//        return ResponseEntity.badRequest().build();
+//    }
+    @PutMapping("/confirmation/{code}")
+    public String confirm(@PathVariable(value = "code") String code){
+        System.out.println("Clicked!");
+        Optional<AppointmentModel> appointmentModel = this.appointmentRepository.findByAcessCode(code);
+        if (appointmentModel.isPresent()){
+            appointmentModel.get().setConfirmed(true);
+            this.appointmentRepository.save(appointmentModel.get());
+            return "clicked";
+        }
+        return "error on clicked";
+    }
+
+
 
 }

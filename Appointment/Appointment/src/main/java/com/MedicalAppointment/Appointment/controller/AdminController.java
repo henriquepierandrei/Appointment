@@ -10,8 +10,11 @@ import com.MedicalAppointment.Appointment.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +26,7 @@ public class AdminController {
     private final NumberTurnRepository numberTurnRepository;
     private final UserRepository userRepository;
 
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 
 
@@ -87,6 +91,11 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Appointment Invalid!");
 
     }
+
+
+
+
+
 
 
 }

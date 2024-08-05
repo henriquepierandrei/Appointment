@@ -93,6 +93,12 @@ public class AdminController {
     }
 
 
+    @PostMapping("/appoiments/close")
+    public ResponseEntity<String> closeAppointments(){
+
+    }
+
+
 
 
 

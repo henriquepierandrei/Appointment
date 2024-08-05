@@ -130,7 +130,7 @@ public class EmailService {
     }
 
 //(cron = "0 0 0 * * ?")
-    @Scheduled(cron = "0 53 10 * * *")
+    @Scheduled(cron = "0 1 11 * * *")
     public void sendEmailNotification() {
         LocalDate dateNow = LocalDate.now();
         String date = dateNow.format(formatter);
@@ -145,7 +145,14 @@ public class EmailService {
             if (userModel.isPresent()){
                 String to = userModel.get().getEmail();
                 String date2 = appointment.getDate();
-                String time = appointment.getTimeAppointmentEnum().toString();
+
+
+                String timeNow = appointment.getTimeAppointmentEnum().toString(); // Exemplo: TIME_10_00
+                String formattedTime = timeNow
+                        .replace("TIME_", "")
+                        .replace("_", ":");
+
+                String time = formattedTime;
                 String code = appointment.getAcessCode();
                 String name = userModel.get().getName();
                 sendEmailNotification(to, date2, time, code, name);

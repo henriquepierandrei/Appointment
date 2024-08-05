@@ -97,6 +97,7 @@ public class EmailService {
                     + "        <h1 style='background-color: rgb(43, 117, 255); color: rgb(255, 255, 255); width: 100%; text-align: center; border-radius: 5px 5px 0px 0px; height: 40px; padding-top: 5px;'>"
                     + "            Notificação da Consulta"
                     + "        </h1>"
+                    + "        <img src=\"rename.png\" alt=\"\" width=\"30%\" style=\"margin: auto; display: block; padding-bottom: 5%;\">"
                     + "        <div style='width: 95%; height: 400px; margin: auto; padding: 0px;'>"
                     + "            <h2 style='color: rgb(255, 255, 255); text-align: center; width: 80%; margin: auto;'>"
                     + "                Olá, " + name + ", enviamos um e-mail para lembrar a sua consulta!"
@@ -109,16 +110,13 @@ public class EmailService {
                     + "                <div style='border-bottom: 2px solid rgb(102, 156, 255);'><h2 style='color: rgb(20, 19, 19); font-size: 1.8em;'>🔒 " + code + "</h2></div>"
                     + "            </div>"
                     + "        </div>"
-                    + "        <div style='height: 100px; display: flex; align-items: center; justify-content: center; width: 100%;'>"
-                    + "            <a href='http://localhost:8080/user/confirmation/" + code + "' style='text-decoration: none;'>"
-                    + "                <button style='border: none; background-color: rgb(73, 137, 255); color: white; width: 70%; padding: 5px; font-size: 1.2em; border-radius: 10px; margin: auto;'>"
-                    + "                    Confirmar Presença"
-                    + "                </button>"
-                    + "            </a>"
+                    + "        <div style='height: 100px; display: flex; align-items: center; justify-content: center; width: 100%;padding-left:30px'>"
+                    + "            <p style='color: rgb(155, 148, 148)'>Confirme sua presença para não perder a consulta!</p>"
                     + "        </div>"
                     + "    </div>"
                     + "</body>"
                     + "</html>";
+
 
 
 
@@ -133,7 +131,7 @@ public class EmailService {
     }
 
 //(cron = "0 0 0 * * ?")
-    @Scheduled(cron = "0 56 15 * * *")
+    @Scheduled(cron = "0 47 16 * * *")
     public void sendEmailNotification() {
         LocalDate dateNow = LocalDate.now();
         String date = dateNow.format(formatter);

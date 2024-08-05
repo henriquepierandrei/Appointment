@@ -67,27 +67,6 @@ public class UserController {
     }
 
 
-//    @PutMapping("/confirmation/{code}")
-//    public ResponseEntity<Void> confirm(@PathVariable(value = "code") String code){
-//        System.out.println("Clicked!");
-//        Optional<AppointmentModel> appointmentModel = this.appointmentRepository.findByAcessCode(code);
-//        if (appointmentModel.isPresent()){
-//            appointmentModel.get().setConfirmed(true);
-//            return ResponseEntity.ok().build();
-//        }
-//        return ResponseEntity.badRequest().build();
-//    }
-    @PutMapping("/confirmation/{code}")
-    public String confirm(@PathVariable(value = "code") String code){
-        System.out.println("Clicked!");
-        Optional<AppointmentModel> appointmentModel = this.appointmentRepository.findByAcessCode(code);
-        if (appointmentModel.isPresent()){
-            appointmentModel.get().setConfirmed(true);
-            this.appointmentRepository.save(appointmentModel.get());
-            return "clicked";
-        }
-        return "error on clicked";
-    }
 
 
 

@@ -2,18 +2,18 @@ package com.MedicalAppointment.Appointment.controller;
 
 import com.MedicalAppointment.Appointment.dto.ValidatorDto;
 import com.MedicalAppointment.Appointment.model.AppointmentModel;
+import com.MedicalAppointment.Appointment.model.CloseAppointmentsModel;
 import com.MedicalAppointment.Appointment.model.NumberTurnModel;
 import com.MedicalAppointment.Appointment.model.UserModel;
 import com.MedicalAppointment.Appointment.repository.AppointmentRepository;
+import com.MedicalAppointment.Appointment.repository.IsClosedRepository;
 import com.MedicalAppointment.Appointment.repository.NumberTurnRepository;
 import com.MedicalAppointment.Appointment.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -25,9 +25,9 @@ public class AdminController {
     private final AppointmentRepository appointmentRepository;
     private final NumberTurnRepository numberTurnRepository;
     private final UserRepository userRepository;
+    private final IsClosedRepository isClosedRepository;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
 
 
 
@@ -93,8 +93,19 @@ public class AdminController {
     }
 
 
-    @PostMapping("/appoiments/close")
+    @PutMapping("/appoiments/close")
     public ResponseEntity<String> closeAppointments(){
+        Optional<CloseAppointmentsModel> closeAppointmentsModel = isClosedRepository.findById(Long.valueOf(1));
+
+        if (closeAppointmentsModel.get().isClosed()){
+            closeAppointmentsModel.get().setClosed(false);
+            this.isClosedRepository.save(closeAppointmentsModel.get());
+            return ResponseEntity.ok().build();
+        }
+
+        closeAppointmentsModel.get().setClosed(true);
+        this.isClosedRepository.save(closeAppointmentsModel.get());
+        return ResponseEntity.ok().build();
 
     }
 

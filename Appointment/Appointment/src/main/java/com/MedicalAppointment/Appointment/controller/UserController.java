@@ -4,10 +4,12 @@ package com.MedicalAppointment.Appointment.controller;
 import com.MedicalAppointment.Appointment.Enum.TimeAppointmentEnum;
 import com.MedicalAppointment.Appointment.dto.CreateDto;
 import com.MedicalAppointment.Appointment.model.AppointmentModel;
+import com.MedicalAppointment.Appointment.model.CloseAppointmentsModel;
 import com.MedicalAppointment.Appointment.model.NumberTurnModel;
 import com.MedicalAppointment.Appointment.model.UserModel;
 
 import com.MedicalAppointment.Appointment.repository.AppointmentRepository;
+import com.MedicalAppointment.Appointment.repository.IsClosedRepository;
 import com.MedicalAppointment.Appointment.repository.NumberTurnRepository;
 import com.MedicalAppointment.Appointment.repository.UserRepository;
 import com.MedicalAppointment.Appointment.service.GenerateCodeAcessService;
@@ -27,10 +29,15 @@ public class UserController {
     private final AppointmentRepository appointmentRepository;
     private final GenerateCodeAcessService generateCodeAcessService;
     private final NumberTurnRepository numberTurnRepository;
+    private final IsClosedRepository isClosedRepository;
 
 
     @PostMapping("/appointment/create")
     public ResponseEntity<String> create(@RequestBody CreateDto createDto, @AuthenticationPrincipal UserModel userModel) {
+
+        Optional<CloseAppointmentsModel> closeAppointmentsModel = this.isClosedRepository.findById(Long.valueOf(1));
+        if (closeAppointmentsModel.get().isClosed()){return ResponseEntity.status(HttpStatus.LOCKED).body("Appointments is Closed!");}
+
         if (userModel.getQuantity() == 1) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("There is already an appointment scheduled!");
         }

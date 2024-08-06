@@ -110,40 +110,15 @@ public class AuthController {
     }
 
 
-//    @GetMapping("/logout")
-//    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        if (auth != null) {
-//            new SecurityContextLogoutHandler().logout(request, response, auth);
-//        }
-//        return ResponseEntity.ok("Logout bem-sucedido");
-//    }
-
-    @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletRequest request) {
-        String token = extractToken(request);
-        if (token != null) {
-            revokeToken(token);
-            return ResponseEntity.ok("Logout bem-sucedido");
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token inválido");
+        return ResponseEntity.ok("Logout bem-sucedido");
     }
 
-    private String extractToken(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            return authHeader.substring(7);
-        }
-        return null;
-    }
-
-    private void revokeToken(String token) {
-        revokedTokens.add(token);
-    }
-
-    public boolean isTokenRevoked(String token) {
-        return revokedTokens.contains(token);
-    }
 
 
 

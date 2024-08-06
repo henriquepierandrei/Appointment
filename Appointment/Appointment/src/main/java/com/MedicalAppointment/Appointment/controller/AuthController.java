@@ -11,11 +11,16 @@ import com.MedicalAppointment.Appointment.repository.EmailRepository;
 import com.MedicalAppointment.Appointment.repository.UserRepository;
 import com.MedicalAppointment.Appointment.service.CpfValidatorService;
 import com.MedicalAppointment.Appointment.service.EmailService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -103,6 +108,45 @@ public class AuthController {
         }
         return ResponseEntity.badRequest().build();
     }
+
+
+//    @GetMapping("/logout")
+//    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (auth != null) {
+//            new SecurityContextLogoutHandler().logout(request, response, auth);
+//        }
+//        return ResponseEntity.ok("Logout bem-sucedido");
+//    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request) {
+        String token = extractToken(request);
+        if (token != null) {
+            revokeToken(token);
+            return ResponseEntity.ok("Logout bem-sucedido");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token inválido");
+    }
+
+    private String extractToken(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7);
+        }
+        return null;
+    }
+
+    private void revokeToken(String token) {
+        revokedTokens.add(token);
+    }
+
+    public boolean isTokenRevoked(String token) {
+        return revokedTokens.contains(token);
+    }
+
+
+
 
 
 

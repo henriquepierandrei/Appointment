@@ -35,6 +35,8 @@ public class UserController {
     @PostMapping("/appointment/create")
     public ResponseEntity<String> create(@RequestBody CreateDto createDto, @AuthenticationPrincipal UserModel userModel) {
 
+        // Create payment system to register to avoid unnecessary medical appointments!
+
         Optional<CloseAppointmentsModel> closeAppointmentsModel = this.isClosedRepository.findById(Long.valueOf(1));
         if (closeAppointmentsModel.get().isClosed()){return ResponseEntity.status(HttpStatus.LOCKED).body("Appointments is Closed!");}
 
